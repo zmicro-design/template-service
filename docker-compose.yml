@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  docker-registry-core:
+    restart: always
+    image: whatwewant/registry:${SERVICE_DOCKER_REGISTRY_CORE_IMAGE_VERSION}
+    ports:
+      - 0.0.0.0:5000:5000
+    environment:
+      DEBUG: 'true'
+      OSS_ACCESS_KEY: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_KEY}
+      OSS_ACCESS_SECRET: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_SECRET}
+      OSS_REGION: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION}
+      OSS_BUCKET: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_BUCKET}
+      
+networks:
+  default:
+    external: true
+    name: compose-ingress

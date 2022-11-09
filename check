@@ -1,0 +1,27 @@
+#!/bin/bash
+
+service::config_set() {
+  config::check_or_set $@ $SERVICE_CONFIG
+}
+
+check() {
+  if [ "$DEBUG" = "true" ]; then
+    log::info "[DEBUG][service]: $SERVICE_CONFIG"
+    cat $SERVICE_CONFIG
+  fi
+
+  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_KEY text
+  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_SECRET text
+  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION text
+  while [ "$(string::has internal $SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION)" = "true" ]; do
+    log::error "[$(timestamp)] OSS_REGION($SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION) must be public for docker client"
+    os::inquirer SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION "text" "请输入 SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION" true
+    config::set SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION $SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION $SERVICE_CONFIG
+
+    sleep 1
+  done
+
+  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_BUCKET text
+}
+
+check $@
