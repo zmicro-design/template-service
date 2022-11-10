@@ -1,3 +1,3 @@
-NAME=docker-registry-core
+NAME=service
 VERSION=v1.0.0
-DESCRIPTION="Docker Registry Core Service"
+DESCRIPTION="A service template use for template plugin."
