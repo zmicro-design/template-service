@@ -6,8 +6,8 @@ if [ $? -ne 0 ]; then
 fi
 
 if [ "$TESTING" = "true" ]; then
-  zmicro service test docker-registry-core
+  zmicro service test {{.SERVICE_NAME}}
   exit 0
 fi
 
-zmicro service start docker-registry-core
+zmicro service start {{.SERVICE_NAME}}

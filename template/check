@@ -1,7 +1,7 @@
 #!/bin/bash
 
 service::config_set() {
-  config::check_or_set $@ $SERVICE_CONFIG
+  config::check_or_set $1 $2 $SERVICE_CONFIG "${@:3}"
 }
 
 check() {
@@ -10,18 +10,9 @@ check() {
     cat $SERVICE_CONFIG
   fi
 
-  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_KEY text
-  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_SECRET text
-  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION text
-  while [ "$(string::has internal $SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION)" = "true" ]; do
-    log::error "[$(timestamp)] OSS_REGION($SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION) must be public for docker client"
-    os::inquirer SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION "text" "请输入 SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION" true
-    config::set SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION $SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION $SERVICE_CONFIG
-
-    sleep 1
-  done
-
-  service::config_set SERVICE_DOCKER_REGISTRY_CORE_OSS_BUCKET text
+  service::config_set SERVICE_{{ .SERVICE_NAME | ToUpper }}_PORT text "Port" 8024
+  service::config_set SERVICE_{{ .SERVICE_NAME | ToUpper }}_USERNAME text "Username"
+  service::config_set SERVICE_{{ .SERVICE_NAME | ToUpper }}_PASSWORD text "Password"
 }
 
 check $@

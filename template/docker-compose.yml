@@ -1,17 +1,22 @@
-version: '3.7'
-
 services:
-  docker-registry-core:
+  {{.SERVICE_NAME}}:
     restart: always
-    image: whatwewant/registry:${SERVICE_DOCKER_REGISTRY_CORE_IMAGE_VERSION}
+    image: whatwewant/{{.SERVICE_NAME}}:${SERVICE_{{ .SERVICE_NAME | ToUpper }}_IMAGE_VERSION}
     ports:
-      - 0.0.0.0:5000:5000
+      - 0.0.0.0:${SERVICE_{{ .SERVICE_NAME | ToUpper }}_PORT}:${SERVICE_{{ .SERVICE_NAME | ToUpper }}_PORT}
+    command: gzterminal server --port $SERVICE_{{ .SERVICE_NAME | ToUpper }}_PORT --username $SERVICE_{{ .SERVICE_NAME | ToUpper }}_USERNAME --password $SERVICE_{{ .SERVICE_NAME | ToUpper }}_PASSWORD
     environment:
-      DEBUG: 'true'
-      OSS_ACCESS_KEY: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_KEY}
-      OSS_ACCESS_SECRET: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_SECRET}
-      OSS_REGION: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION}
-      OSS_BUCKET: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_BUCKET}
+      PORT: $SERVICE_{{ .SERVICE_NAME | ToUpper }}_PORT
+      USERNAME: ${SERVICE_{{ .SERVICE_NAME | ToUpper }}_USERNAME}
+      PASSWORD: ${SERVICE_{{ .SERVICE_NAME | ToUpper }}_PASSWORD}
+    volumes:
+      # mount services in
+      - ${SERVICE_{{ .SERVICE_NAME | ToUpper }}_HOME}/plugins/service/services:/usr/local/lib/zmicro/plugins/service/services
+      #
+      - ${SERVICE_{{ .SERVICE_NAME | ToUpper }}_DATA_HOME}:/data
+      - ${SERVICE_{{ .SERVICE_NAME | ToUpper }}_CONFIGS_HOME}:/configs
+      # Docker
+      - /var/run/docker.sock:/var/run/docker.sock
       
 networks:
   default:

@@ -1,3 +1,3 @@
-NAME=docker-registry-core
+NAME={{.SERVICE_NAME}}
 VERSION=v0.0.0
-DESCRIPTION="Docker Registry Core Service"
+DESCRIPTION="{{.SERVICE_NAME}} Service"

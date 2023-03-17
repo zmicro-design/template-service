@@ -1,15 +1,12 @@
-version: '3.7'
-
 services:
-
-  docker-registry-core:
-    image: whatwewant/registry:${SERVICE_DOCKER_REGISTRY_CORE_IMAGE_VERSION}
+  {{.SERVICE_NAME}}:
+    restart: always
+    image: whatwewant/{{.SERVICE_NAME}}:${SERVICE_{{ .SERVICE_NAME | ToUpper }}_IMAGE_VERSION}
     environment:
-      OSS_ACCESS_KEY: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_KEY}
-      OSS_ACCESS_SECRET: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_ACCESS_SECRET}
-      OSS_REGION: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_REGION}
-      OSS_BUCKET: ${SERVICE_DOCKER_REGISTRY_CORE_OSS_BUCKET}
-
+      PORT: $SERVICE_{{ .SERVICE_NAME | ToUpper }}_PORT
+      USERNAME: ${SERVICE_{{ .SERVICE_NAME | ToUpper }}_USERNAME}
+      PASSWORD: ${SERVICE_{{ .SERVICE_NAME | ToUpper }}_PASSWORD}
+      
 networks:
   default:
     external: true
