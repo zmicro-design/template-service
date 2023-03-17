@@ -4,10 +4,10 @@ if [ -z "$SERVICE_NAME" ]; then
   os::inquirer SERVICE_NAME "text" "Input Service Name" true
 fi
 
-if [ -z "$PACKAGE_VERSION" ]; then
-  os::inquirer PACKAGE_VERSION "text" "Input Package Version" true
-fi
+# if [ -z "$PACKAGE_VERSION" ]; then
+#   os::inquirer PACKAGE_VERSION "text" "Input Package Version" true
+# fi
 
-if [ -z "$PACKAGE_ORGANIZATION_NAME" ]; then
-  os::inquirer PACKAGE_ORGANIZATION_NAME "text" "Input Package Organization Name" true
-fi
+# if [ -z "$PACKAGE_ORGANIZATION_NAME" ]; then
+#   os::inquirer PACKAGE_ORGANIZATION_NAME "text" "Input Package Organization Name" true
+# fi
